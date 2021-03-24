@@ -1,0 +1,42 @@
+{
+    "configs": 
+	[
+        {
+            "input_file": "1_encoded_XOR.txt",
+            "hierarchy": false,
+            "primer_length": 20,
+            "bias_count": 5
+        },
+	{
+	    "input_file":"1_encoded_GOLD.txt",
+	    "hierarchy":false,
+	    "primer_length":20,
+	    "bias_count": 5
+	},
+	    
+        {
+            "input_file": "2_encoded.txt",
+            "hierarchy": false,
+            "primer_length": 20,
+            "bias_count": 5
+        },
+		{
+            "input_file": "3_encoded.txt",
+            "hierarchy": false,
+            "primer_length": 20,
+            "bias_count": 5
+        },
+		{
+            "input_file": "4_encoded.txt",
+            "hierarchy": true,
+            "primer_length": 20,
+            "bias_count": 5
+        },
+		{
+            "input_file": "5_encoded.txt",
+            "hierarchy": true,
+            "primer_length": 20,
+            "bias_count": 5
+        }
+    ]
+}

@@ -1,0 +1,24 @@
+{
+    "configs": 
+	[
+
+	{
+	    "input_file":"3.first_flight.dna",
+	    "hierarchy":false,
+	    "primer_length":20,
+	    "bias_count": 5
+	},
+	{
+	    "input_file":"1_encoded_XOR.txt",
+	    "hierarchy":false,
+	    "primer_length":20,
+	    "bias_count": 5
+	},
+	{
+	    "input_file":"1_encoded_GOLD.txt",
+	    "hierarchy":false,
+	    "primer_length":20,
+	    "bias_count": 5
+	}
+    ]
+}
