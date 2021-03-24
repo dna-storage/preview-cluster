@@ -1,0 +1,17 @@
+#Ignored folders
+*~
+Test_Files/
+StrippedFastQ/
+mapped_strands/
+*.pyc
+starcode/
+*.DEBUG
+.vscode
+
+#Makefile stuff
+accuracy_test.txt
+build/
+dist/
+dnastorage.egg-info/
+for_starcode.txt
+generate.egg-info/

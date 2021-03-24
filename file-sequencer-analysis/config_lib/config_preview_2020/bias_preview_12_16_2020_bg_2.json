@@ -1,0 +1,23 @@
+{
+    "configs": 
+	[
+	{
+	    "input_file":"2.1911_Wright_Glider.dna",
+	    "hierarchy":false,
+	    "primer_length":20,
+	    "bias_count": 5
+	},
+	{
+	    "input_file":"1_encoded_XOR.txt",
+	    "hierarchy":false,
+	    "primer_length":20,
+	    "bias_count": 5
+	},
+	{
+	    "input_file":"1_encoded_GOLD.txt",
+	    "hierarchy":false,
+	    "primer_length":20,
+	    "bias_count": 5
+	}
+    ]
+}
