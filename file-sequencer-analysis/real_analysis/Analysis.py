@@ -13,7 +13,7 @@ def Edit_Distance(sampleindex, originalstrand, canonicalstrand):
 
 def File_Analysis(clusters, strand_dict, bias_array, fileoutput):
     import csv
-    with open(fileoutput, 'wb') as csvfile:
+    with open(fileoutput, 'w') as csvfile:
         writer = csv.writer(csvfile)
         clusters = clusters.splitlines()
         for line in clusters:

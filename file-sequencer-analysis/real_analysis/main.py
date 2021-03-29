@@ -21,18 +21,18 @@ if __name__ == "__main__":
 
     strand_dict = {}
 
-    print "Biasing...\n"
+    print("Biasing...\n")
     bias_array = Strand_Pool_Biasing.biasing(args.biasdirectory, args.input,
                                              args.biasconfig, strand_dict,
                                              args.biascount)
-    print "Complete!\n"
-    print "Now running starcode...\n"
+    print("Complete!\n")
+    print("Now running starcode...\n")
 
     process = subprocess.Popen([args.scdir + "./starcode", "-d" +
                                str(args.editdistance), "-q", "--seq-id"],
                                stdin=subprocess.PIPE,
                                stdout=subprocess.PIPE,
-                               stderr=subprocess.PIPE)
+                               stderr=subprocess.PIPE,universal_newlines=True)
 
     starout = process.communicate('\n'.join(bias_array))
     clustered = starout[0]
@@ -40,10 +40,10 @@ if __name__ == "__main__":
     with open("Clusters.DEBUG", 'w') as w:
         w.write(clustered)
 
-    print "Starcode Complete!\n"
-    print "Starting File Analysis...\n"
+    print("Starcode Complete!\n")
+    print("Starting File Analysis...\n")
 
     Analysis.File_Analysis(clustered, strand_dict, bias_array, args.output)
 
-    print "File Analysis Complete!\n"
-    print "Program finished!\n"
+    print("File Analysis Complete!\n")
+    print("Program finished!\n")

@@ -83,8 +83,8 @@ def biasing(biasdirectory, biasfile, config, strand_dict, biascount):
     import argparse
     import json
 
-    print json.load(open(config))
-    print "biasdirectory: {}".format(biasdirectory)
+    print(json.load(open(config)))
+    print("biasdirectory: {}".format(biasdirectory))
     bias_array = []  # Sets up empty bias array
     strand_dict["startindex"] = file_length(biasfile)
 

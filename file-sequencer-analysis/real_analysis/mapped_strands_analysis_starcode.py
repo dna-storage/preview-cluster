@@ -34,7 +34,7 @@ def analyze_sample_distributions(path_dictionary,output_book,encoding_directory,
         file_pool_dict={}
         sample_pool=build_sample_pool(fastq_path_dict[sample]) #build an array of strands from the original sample
         for mapped_data_path in path_dictionary[sample]:
-            mapped_file=open(mapped_data_path,'rb')
+            mapped_file=open(mapped_data_path,'r')
             mapped_data=csv.reader(mapped_file,delimiter=',')
             for row in mapped_data:
                 #if this strand actually maps, proceed
@@ -46,7 +46,7 @@ def analyze_sample_distributions(path_dictionary,output_book,encoding_directory,
                     sample_index=int(row[0])
                     #write out the strands associated with each file 
                     if os.path.exists(sample+'_'+file_name) == False:
-                        separationFiles[sample+'_'+file_name]=open(sample+'_'+file_name,'w+')
+                        separationFiles[sample+'_'+file_name]=open(sample+'_'+file_name,'w')
                     if file_name not in analysis_dict:
                         file_path=encoding_directory+'/'+file_name
                         analysis_dict[file_name]={}
@@ -98,7 +98,6 @@ def analyze_sample_distributions(path_dictionary,output_book,encoding_directory,
                 col+=1
                 row=1
             row=0
-        
             col+=2
         for sFile in separationFiles:
             separationFiles[sFile].close() # close files that hold the separation data
@@ -113,7 +112,7 @@ def analyze_sample_error_rates(path_dictionary,output_book,encoding_directory,fa
         file_pool_dict={}
         sample_pool=build_sample_pool(fastq_path_dict[sample])
         for mapped_data_path in path_dictionary[sample]:
-            mapped_file=open(mapped_data_path,'rb')
+            mapped_file=open(mapped_data_path,'r')
             mapped_data=csv.reader(mapped_file,delimiter=',')
             for row in mapped_data:
                 #if this strand actually maps, proceed
@@ -175,21 +174,21 @@ def analyze_sample_error_rates(path_dictionary,output_book,encoding_directory,fa
         col=0
         sorted_headers=["insert","delete","replace","overall"]
         #calculate the overall error rate for the files
-	#calculate the total rate across all files in the sample
+        #calculate the total rate across all files in the sample
         analysis_dict["6_total"]={}
-	analysis_dict["6_total"]["replace"]=[0]*200
-	analysis_dict["6_total"]["delete"]=[0]*200
+        analysis_dict["6_total"]["replace"]=[0]*200
+        analysis_dict["6_total"]["delete"]=[0]*200
         analysis_dict["6_total"]["insert"]=[0]*200
         analysis_dict["6_total"]["overall"]=[0]*200
-	analysis_dict["6_total"]["total_short"]=0
+        analysis_dict["6_total"]["total_short"]=0
         analysis_dict["6_total"]["total_long"]=0
         for file_ in analysis_dict:
-	    if file_!="6_total":
-            	analysis_dict[file_]["overall"]=[0]*200
-            	for error_type in analysis_dict[file_]:
+            if file_!="6_total":
+                analysis_dict[file_]["overall"]=[0]*200
+                for error_type in analysis_dict[file_]:
                     if error_type!="overall" and error_type!="total_short" and error_type!="total_long":
-                    	for index, data in enumerate(analysis_dict[file_]["overall"]):
-                       	    analysis_dict[file_]["overall"][index]+=analysis_dict[file_][error_type][index]
+                        for index, data in enumerate(analysis_dict[file_]["overall"]):
+                            analysis_dict[file_]["overall"][index]+=analysis_dict[file_][error_type][index]
                             analysis_dict["6_total"][error_type][index]+=analysis_dict[file_][error_type][index]
                 analysis_dict["6_total"]["total_short"]+=analysis_dict[file_]["total_short"]
                 analysis_dict["6_total"]["total_long"]+=analysis_dict[file_]["total_long"]
@@ -233,7 +232,7 @@ def analyze_strand_rate(path_dictionary,output_book,encoding_directory,fastq_pat
         file_pool_dict={}
         sample_pool=build_sample_pool(fastq_path_dict[sample])
         for mapped_data_path in path_dictionary[sample]:
-            mapped_file=open(mapped_data_path,'rb')
+            mapped_file=open(mapped_data_path,'r')
             mapped_data=csv.reader(mapped_file,delimiter=',')
             for row in mapped_data:
                 #if this strand actually maps, proceed
@@ -306,7 +305,7 @@ def analyze_strand_rate(path_dictionary,output_book,encoding_directory,fastq_pat
 #convert the read space file to a dictionary indexed by 'sX' where 'X' is the sample number
 def convert_read_space(read_space):
     read_space_dict={}
-    read_space_file=open(read_space,'rb')
+    read_space_file=open(read_space,'r')
     read_space_csv=csv.reader(read_space,delimiter=',')
     for sample_number, read_count in enumerate(read_space_csv[0]):
         read_space_dict['s'+str(sample_number+1)]=int(read_count)
@@ -327,7 +326,7 @@ def analyze_down_sample_distribution(path_dictionary,output_book,encoding_direct
     for sample in sorted(path_dict,key=lambda x: int(x.split('s')[1])):
         analysis_dict={}
         for mapped_data_path in path_dictionary[sample]:
-            mapped_file=open(mapped_data_path,'rb')
+            mapped_file=open(mapped_data_path,'r')
             mapped_data=csv.reader(mapped_file,delimiter=',')
             sampled_array=random_sample(read_space_dict[sample],down_count)
             for row in mapped_data:
@@ -365,7 +364,7 @@ def analyze_total_reads(path_dictionary,output_book,encoding_directory):
     for sample in sorted(path_dict,key=lambda x: int(x.split('s')[1])):
         analysis_dict={}
         for mapped_data_path in path_dictionary[sample]:
-            mapped_file=open(mapped_data_path,'rb')
+            mapped_file=open(mapped_data_path,'r')
             mapped_data=csv.reader(mapped_file,delimiter=',')
             for row in mapped_data:
                 #if this strand actually maps, proceed
@@ -431,7 +430,7 @@ if __name__ == "__main__":
     
     sample_names=[]
     path_dict={}
-
+    
     for i in range(sample_lower,sample_upper+1):
         sample_names.append('s'+str(i))
 
@@ -439,9 +438,6 @@ if __name__ == "__main__":
     for sample in sample_names:
         path_dict[sample]=[]
         path_dict[sample].append('/'.join([args.part_dir,sample,sample+'.csv']))
-
-                
-
     
     #create paths to relevant sample files
     sample_nums = ['s'+str(x)+'_' for x in range(sample_lower,sample_upper+1)]
