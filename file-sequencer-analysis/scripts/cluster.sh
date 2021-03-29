@@ -11,11 +11,34 @@
 #biasDir=/tuck_data/kvolkel/file-sequencer-analysis/bias_lib/preview_0HD
 #biasconfig=/tuck_data/kvolkel/file-sequencer-analysis/config_lib/config_preview_2020/bias_preview_12_16_2020_access_sets_bg.json
 
-strippedFastQDir=StrippedFastQ_11_23_2020
-outputDir=mapped_strands_11_23_2020
-biasDir=./bias_lib/preview_error_primer
-biasconfig=./config_lib/config_preview_2020/bias_preview_11_23_2020_error.json
+#strippedFastQDir=StrippedFastQ_11_23_2020
+#outputDir=mapped_strands_11_23_2020
+#biasDir=./bias_lib/preview_error_primer
+#biasconfig=./config_lib/config_preview_2020/bias_preview_11_23_2020_error.json
 
+
+while getopts ":o:s:b:c:" opt; do
+    case ${opt} in 
+	o )
+	    outputDir=$OPTARG
+	    ;;
+	s )
+	    strippedfastQDir=$OPTARG
+	    ;;
+	b )
+	    biasDir=$OPTARG
+	    ;;
+	c )
+	    biasconfig=$OPTARG
+	    ;;
+	\? )
+	    echo "Usage [-o] <outputdir> [-s] <strippedfastqdir> [-b] <biasdir> [-c] <biasconfigfile>"
+	    exit 1
+	    ;;
+	: )
+	    echo "Invalid option $OPTARG requires an argument" 1>&2
+	    exit 1
+	    ;;
 
 ls $strippedFastQDir | cat > fastQList.txt
 

@@ -6,17 +6,30 @@
 #alignmentFile=/tuck_data/kvolkel/file-sequencer-analysis/config_lib/config_preview_2020/alignment_preview_12_16_2020_template.config
 
 
+
 #fastQDir=/tuck_data/kvolkel/preview_12_26_2020_access_sets
 #outputDir=StrippedFastQ_12_16_2020_AccessSets
 #alignmentFile=/tuck_data/kvolkel/file-sequencer-analysis/config_lib/config_preview_2020/alignment_preview_12_16_2020_access_sets.config
 
-fastQDir=../FastQFiles_Preview_2020
-outputDir=StrippedFastQ_11_23_2020
-alignmentFile=./config_lib/config_preview_2020/alignment_preview_11_23_2020.config
-
-
-
-
+while getopts ":o:f:a:" opt; do
+    case ${opt} in 
+	o )
+	    outputDir=$OPTARG
+	    ;;
+	f )
+	    fastQDir=$OPTARG
+	    ;;
+	a )
+	    alignmentFile=$OPTARG
+	    ;;
+	\? )
+	    echo "Usage [-o] <outputdir> [-f] <fastqdir> [-a] <alignmentfile>"
+	    exit 1
+	    ;;
+	: )
+	    echo "Invalid option $OPTARG requires an argument" 1>&2
+	    exit 1
+	    ;;
 
 
 ls $fastQDir | cat > fastQList.txt
