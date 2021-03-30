@@ -15,7 +15,7 @@ To set up the analysis, first starcode needs to be downloaded and compiled. This
 
 `make init`
 
-After compiling this, the files that indicate the canonical strands that should form the centroids need to be set up, and configuration files need to be created. There are examples of configuration files and canonical strand files found in the directories `./config\_lib` and `./bias\_lib`, respectively. Canonical strand files should just be those files that represent the encoded strands for the library, and the configuration files are used to indicate to the clustering analysis which files from the library will be used to set up the centroids, e.g. you can chose a configuration that creates centroids only using strands from 1 file in the library. There are two specific configuration files that need to be created. One is an alignment configuration that is used to pair a *sequencing index DNA sequence* with each *experiment* in your data set. Whether this actually gets used on not depends on how the sequencing machine/service prepares the data. If it *does* remove the *sequencing index*, this configuration file is ignored and the scripts/alignment.sh script needs to be configured to reflect that. If the index does not get removed the alignment scripts will pick out the best matching parts of each sequencing strand that match to the index, and the remaining bases between the index regions are taken and output to a stripped fastq directory. Once an alignment configuration script is made that reflects the experiments being stripped, the following command can be run to strip fastq files. Currently, analysis assumes these indexes are removed.
+After compiling this, the files that indicate the canonical strands that should form the centroids need to be set up, and configuration files need to be created. There are examples of configuration files and canonical strand files found in the directories `./config_lib` and `./bias_lib`, respectively. Canonical strand files should just be those files that represent the encoded strands for the library, and the configuration files are used to indicate to the clustering analysis which files from the library will be used to set up the centroids, e.g. you can chose a configuration that creates centroids only using strands from 1 file in the library. There are two specific configuration files that need to be created. One is an alignment configuration that is used to pair a *sequencing index DNA sequence* with each *experiment* in your data set. Whether this actually gets used on not depends on how the sequencing machine/service prepares the data. If it *does* remove the *sequencing index*, this configuration file is ignored and the scripts/alignment.sh script needs to be configured to reflect that. If the index does not get removed the alignment scripts will pick out the best matching parts of each sequencing strand that match to the index, and the remaining bases between the index regions are taken and output to a stripped fastq directory. Once an alignment configuration script is made that reflects the experiments being stripped, the following command can be run to strip fastq files. Currently, analysis assumes these indexes are removed.
 
 `./scripts/alignment.sh [-o] <outputdir> [-f] <fastqdir> [-a] <alignmentfile> [-l]`
 
@@ -27,20 +27,20 @@ There should now be a directory populated with stripped fastq files. The next st
 
 Where `<outputdir>` is the output directory name where clustering results will be stored, `<strippedfastqdir>` is an input directory name of the path of stripped fastq files to analyze, `<biasdir>` is the path name for the directory that has files for representitive strands that we are searching for and are used to bias the clustering analysis, `<biasconfigfile>` is a configuration file path name for the json file that will be used to specify which files from `<biasdir>` should be included in the biasing process.
 
-Now the results should be in the directory that was set up with the `<outputdir>`, and can be processed by the script at the path `./real\_analysis/mapped\_strands\_analysis\_starcode.py` to generate erorr rate analysis and read distribution analyses. The list of options can be generated with:
+Now the results should be in the directory that was set up with the `<outputdir>`, and can be processed by the script at the path `./real_analysis/mapped_strands_analysis_starcode.py` to generate erorr rate analysis and read distribution analyses. The list of options can be generated with:
 
-`python real\_analysis/mapped\_strands\_analysis\_starcode.py --help`
+`python real_analysis/mapped_strands_analysis_starcode.py --help`
 
 The options that set up the analysis with the proper information are explained in more detail as follows:
 
-`--sample\_range`: The range of experiments to include in one spread sheet. This is based on the assumption that all sequencing fastq files start with *sX* where *X* is an arbitrary ID number for the fastq file. This can be achieved witha simple renaming before performing all of the analysis. One should check the directory in which mapped strands have been dumped to see which range of sample ID's have been generated since one could generated disjoint ranges 1 at a time, e.g samples 1-5 and 10-15 without 6-9.
+`--sample_range`: The range of experiments to include in one spread sheet. This is based on the assumption that all sequencing fastq files start with *sX* where *X* is an arbitrary ID number for the fastq file. This can be achieved witha simple renaming before performing all of the analysis. One should check the directory in which mapped strands have been dumped to see which range of sample ID's have been generated since one could generated disjoint ranges 1 at a time, e.g samples 1-5 and 10-15 without 6-9.
 
-`--original\_encoding\_directory`: path to the directory that represents the original encoded strands. Should be the same as the `<biasdir>` path previously used.
+`--original_encoding_directory`: path to the directory that represents the original encoded strands. Should be the same as the `<biasdir>` path previously used.
 
-`--stripped\_fastq\_directory`: path to the stripped fastq data generated by the `alignment.sh` script.
+`--stripped_fastq_directory`: path to the stripped fastq data generated by the `alignment.sh` script.
 
-`--primer\_partition\_top\_directory`: path to the top level directory of mapped strands. This should be the same as the `<outputdir>` variable in the `cluster.sh` script.
+`--primer_partition_top_directory`: path to the top level directory of mapped strands. This should be the same as the `<outputdir>` variable in the `cluster.sh` script.
 
-`--output\_book`: name of the excel spread sheet that data will be dumped to. In the book, there will be a separate sheet for each sample identified by `--sample\_range`.
+`--output_book`: name of the excel spread sheet that data will be dumped to. In the book, there will be a separate sheet for each sample identified by `--sample_range`.
 
 
