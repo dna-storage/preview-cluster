@@ -31,7 +31,7 @@ def fastq_stripping(fileinput, strand_array):
                 strand = 0
 
 
-def index_alignment(fileinput, strand_array, index, outputdirectory,skip_alignment):
+def index_alignment(fileinput, strand_array, index, outputdirectory,skip_alignment,prefix):
     index_formula = ("AGATCGGAAGAGCACACGTCTGAACTCCAGTCAC" + i7_dict[index] +
                      "ATCTCGTATGCCGTCTTCTGCTTG")  # Adds formula & converts
     if outputdirectory[-1] is not "/":
@@ -39,7 +39,7 @@ def index_alignment(fileinput, strand_array, index, outputdirectory,skip_alignme
     else:
         _outputdirectory=outputdirectory
     bad=0
-    with open(_outputdirectory + fileinput +"_Stripped.txt", 'w') as w:  # Output filename formatting
+    with open(_outputdirectory +prefix+ fileinput +"_Stripped.txt", 'w') as w:  # Output filename formatting
         for line in strand_array:
             if skip_alignment==True:
                 w.write(line.rstrip()+'\n') #if we don't need to align to an index strand just strip
@@ -71,6 +71,7 @@ if __name__ == "__main__":
     parser.add_argument("--config", help="Config File")
     parser.add_argument("--output", help="File Output Directory")
     parser.add_argument("--skip_alignment",action="store_true")
+    parser.add_argument('--prefix',action="store",help="prefix to rename a file")
 
    
     args = parser.parse_args()
@@ -82,4 +83,4 @@ if __name__ == "__main__":
             config = line.split()  # config[0] = filename, config[1] = index
             if config[0] in args.input: break # look for the file of interest
         fastq_stripping(args.input, strand_array)
-        index_alignment(config[0], strand_array, config[1], args.output,args.skip_alignment)
+        index_alignment(config[0], strand_array, config[1], args.output,args.skip_alignment,args.prefix)
