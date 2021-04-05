@@ -43,12 +43,12 @@ fi
 
 COUNTER=1
 while read line; do
-    if [ ${line: -6} == ".fastq" ] ; then
+    if [ ! -z ${line: -6} ] && [ ${line: -6} == ".fastq" ] ; then
        PREFIX="s${COUNTER}_"
        echo $line
        echo $PREFIX
        if [ "$lsf" = true ] ; then
-	   bsub -W 480  -N -C 0 -n 4 -o stdout_align_$line.txt -e sterr_align_$line.txt -P DNA_ALIGN -R "rusage[mem=4000]" python3 real_analysis/Sequence_Alignment.py --input $fastQDir/$line --config $alignmentFile --output $outputDir --skip_alignment --prefix $PREFIX
+	   bsub -W 480  -N -C 0 -n 4 -o stdout_align_$line.txt -e sterr_align_$line.txt -P DNA_ALIGN -R "rusage[mem=4000]" python3 $SCRIPTPATH/../real_analysis/Sequence_Alignment.py --input $fastQDir/$line --config $alignmentFile --output $outputDir --skip_alignment --prefix $PREFIX
        fi
        if [ "$lsf" = false ] ; then
 	   python3 $SCRIPTPATH/../real_analysis/Sequence_Alignment.py --input $fastQDir/$line --config $alignmentFile --output $outputDir --skip_alignment --prefix $PREFIX
