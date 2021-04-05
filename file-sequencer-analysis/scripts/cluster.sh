@@ -1,10 +1,14 @@
-#!/bin/sh
+#!/bin/bash
 #this script launches a set of jobs to use starcode clustering analysis on fastq file
 outputDir=""
 strippedFastQDir=""
 biasDir=""
 biasconfig=""
 lsf=false
+
+SCRIPT=$(readlink -f "$0")
+# Absolute path this script is in, thus /home/user/bin                                                                                                                                                                        
+SCRIPTPATH=$(dirname "$SCRIPT")
 
 while getopts ":o:s:b:c:l" opt; do
     case ${opt} in 
@@ -54,11 +58,11 @@ while read line; do
     
     
     if [ "$lsf" = true ] ; then
-	bsub -W 480 -N -C 0 -n 4 -o stdout_cluster_$line.txt -e sterr_cluster_$line.txt -P DNA_CLUSTER -R "rusage[mem=8000]" python real_analysis/main.py --input $strippedFastQDir/$line --biasconfig $biasconfig --output $outputDir/$sample/$sample.csv --editdistance 8 --biascount 20 --biasdirectory $biasDir/ --scdir starcode/
+	bsub -W 480 -N -C 0 -n 4 -o stdout_cluster_$line.txt -e sterr_cluster_$line.txt -P DNA_CLUSTER -R "rusage[mem=8000]" python3 real_analysis/main.py --input $strippedFastQDir/$line --biasconfig $biasconfig --output $outputDir/$sample/$sample.csv --editdistance 8 --biascount 20 --biasdirectory $biasDir/ --scdir starcode/
     fi
     
     if [ "$lsf" = false ] ; then
-	python real_analysis/main.py --input $strippedFastQDir/$line --biasconfig $biasconfig --output $outputDir/$sample/$sample.csv --editdistance 8 --biascount 20 --biasdirectory $biasDir/ --scdir starcode/
+	python3 $SCRIPTPATH/../real_analysis/main.py --input $strippedFastQDir/$line --biasconfig $biasconfig --output $outputDir/$sample/$sample.csv --editdistance 8 --biascount 20 --biasdirectory $biasDir/ --scdir starcode/
 	
     fi
 done < fastQList.txt

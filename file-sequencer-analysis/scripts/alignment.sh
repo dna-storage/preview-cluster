@@ -1,9 +1,13 @@
-#!/bin/sh
+#!/bin/bash
 #this script launches a set of jobs to perform alignment in parallel on raw fastq files
 fastQDir=""
 outputDir=""
 alignmentFile=""
 lsf=false
+
+SCRIPT=$(readlink -f "$0")
+# Absolute path this script is in, thus /home/user/bin                                                                                                                                                                        
+SCRIPTPATH=$(dirname "$SCRIPT")
 
 while getopts ":o:f:a:l" opt; do
     case ${opt} in 
@@ -44,10 +48,10 @@ while read line; do
        echo $line
        echo $PREFIX
        if [ "$lsf" = true ] ; then
-	   bsub -W 480  -N -C 0 -n 4 -o stdout_align_$line.txt -e sterr_align_$line.txt -P DNA_ALIGN -R "rusage[mem=4000]" python real_analysis/Sequence_Alignment.py --input $fastQDir/$line --config $alignmentFile --output $outputDir --skip_alignment --prefix $PREFIX
+	   bsub -W 480  -N -C 0 -n 4 -o stdout_align_$line.txt -e sterr_align_$line.txt -P DNA_ALIGN -R "rusage[mem=4000]" python3 real_analysis/Sequence_Alignment.py --input $fastQDir/$line --config $alignmentFile --output $outputDir --skip_alignment --prefix $PREFIX
        fi
        if [ "$lsf" = false ] ; then
-	   python real_analysis/Sequence_Alignment.py --input $fastQDir/$line --config $alignmentFile --output $outputDir --skip_alignment --prefix $PREFIX
+	   python3 $SCRIPTPATH/../real_analysis/Sequence_Alignment.py --input $fastQDir/$line --config $alignmentFile --output $outputDir --skip_alignment --prefix $PREFIX
        fi
        COUNTER=$((COUNTER+1))
     fi
